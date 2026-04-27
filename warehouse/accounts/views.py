@@ -118,10 +118,9 @@ def failed_logins(exc, request):
     resp = HTTPTooManyRequests(
         request._(
             "There have been too many unsuccessful login attempts. "
-            "You have been locked out for {}. "
-            "Please try again later.".format(
-                humanize.naturaldelta(exc.resets_in.total_seconds())
-            )
+            f"You have been locked out for "
+            f"{humanize.naturaldelta(exc.resets_in.total_seconds())}. "
+            "Please try again later."
         ),
         retry_after=exc.resets_in.total_seconds(),
     )
@@ -249,11 +248,11 @@ def accounts_search(request) -> dict[str, list[User]]:
     User must be logged in.
     """
     if request.user is None:
-        raise HTTPUnauthorized()
+        raise HTTPUnauthorized
 
     form = UsernameSearchForm(request.params)
     if not form.validate():
-        raise HTTPBadRequest()
+        raise HTTPBadRequest
 
     search_limiter = request.find_service(IRateLimiter, name="accounts.search")
     if not search_limiter.test(request.ip_address):
@@ -270,7 +269,7 @@ def accounts_search(request) -> dict[str, list[User]]:
     search_limiter.hit(request.ip_address)
 
     if not users:
-        raise HTTPNotFound()
+        raise HTTPNotFound
 
     return {"users": users}
 

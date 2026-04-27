@@ -87,7 +87,6 @@ def _handle_local_file_header(
         seen_extra_ids.add(extra_id)
 
         if extra_id == 0x0001:
-
             # ZIP64 extras must be one of these lengths.
             if extra_data_size not in (0, 8, 16, 24, 28):
                 raise InvalidZipFileError("Malformed zip file")
@@ -171,7 +170,7 @@ def _handle_central_directory_header(fp: typing.IO[bytes]) -> tuple[bytes, bytes
     See section 4.3.12 of APPNOTE.TXT.
     """
     data = _read_check(fp, 42)
-    compressed_size, filename_size, extra_size, comment_size, offset = struct.unpack(
+    _compressed_size, filename_size, extra_size, comment_size, _offset = struct.unpack(
         "<xxxxxxxxxxxxxxxxLxxxxHHHxxxxxxxxL", data
     )
     if comment_size != 0:

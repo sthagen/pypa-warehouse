@@ -8,13 +8,12 @@ Warehouse-specific style rules.
 """
 
 import ast
-from pathlib import Path
-from textwrap import dedent  # for testing
 
 from collections.abc import Generator
+from pathlib import Path
+from textwrap import dedent  # for testing
 from typing import Any
 
-WH001_msg = "WH001 Prefer `urllib3.util.parse_url` over `urllib.parse.urlparse`"
 WH002_msg = (
     "WH002 Prefer `sqlalchemy.orm.relationship(back_populates=...)` "
     "over `sqlalchemy.orm.relationship(backref=...)`"
@@ -80,27 +79,11 @@ class WarehouseVisitor(ast.NodeVisitor):
                 return True
         return False
 
-    def visit_Name(self, node: ast.Name) -> None:  # noqa: N802
-        if node.id == "urlparse":
-            self.errors.append((node.lineno, node.col_offset, WH001_msg))
-
-        self.generic_visit(node)
-
-    def visit_Attribute(self, node: ast.Attribute) -> None:  # noqa: N802
-        if (
-            node.attr == "urlparse"
-            and isinstance(node.value, ast.Attribute)
-            and node.value.value.id == "urllib"
-        ):
-            self.errors.append((node.lineno, node.col_offset, WH001_msg))
-
-        self.generic_visit(node)
-
-    def visit_Assign(self, node: ast.Assign) -> None:  # noqa: N802
+    def visit_Assign(self, node: ast.Assign) -> None:
         self.check_for_backref(node)
         self.generic_visit(node)
 
-    def visit_AnnAssign(self, node: ast.AnnAssign) -> None:  # noqa: N802
+    def visit_AnnAssign(self, node: ast.AnnAssign) -> None:
         self.check_for_backref(node)
         self.generic_visit(node)
 
@@ -140,11 +123,11 @@ class WarehouseVisitor(ast.NodeVisitor):
                         (kw.value.lineno, kw.value.col_offset, WH004_msg)
                     )
 
-    def visit_Call(self, node: ast.Call) -> None:  # noqa: N802
+    def visit_Call(self, node: ast.Call) -> None:
         self.check_metrics_tags(node)
         self.generic_visit(node)
 
-    def visit_FunctionDef(self, node: ast.FunctionDef) -> None:  # noqa: N802
+    def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
         for decorator in node.decorator_list:
             if (
                 isinstance(decorator, ast.Call)

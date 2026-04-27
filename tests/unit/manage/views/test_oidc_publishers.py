@@ -1076,7 +1076,9 @@ class TestManageOIDCPublisherViews:
                     id="fakeid",
                     publisher_name="ActiveState",
                     publisher_url=(
-                        lambda x=None: "https://platform.activestate.com/some-org/some-project"  # noqa
+                        lambda x=None: (
+                            "https://platform.activestate.com/some-org/some-project"
+                        )
                     ),
                     organization="some-org",
                     activestate_project_name="some-project",
@@ -1329,7 +1331,7 @@ class TestManageOIDCPublisherViews:
         ]
         assert request.session.flash.calls == [
             pretend.call(
-                f"Added {str(publisher)} "
+                f"Added {publisher!s} "
                 + (
                     f"in {publisher.publisher_url()}"
                     if publisher.publisher_url()
@@ -1504,7 +1506,7 @@ class TestManageOIDCPublisherViews:
         assert project.record_event.calls == []
         assert db_request.session.flash.calls == [
             pretend.call(
-                f"{str(publisher)} is already registered with fakeproject",
+                f"{publisher!s} is already registered with fakeproject",
                 queue="error",
             )
         ]
@@ -1589,7 +1591,7 @@ class TestManageOIDCPublisherViews:
         assert project.record_event.calls == []
         assert db_request.session.flash.calls == [
             pretend.call(
-                f"{str(publisher)} is already registered with fakeproject",
+                f"{publisher!s} is already registered with fakeproject",
                 queue="error",
             )
         ]

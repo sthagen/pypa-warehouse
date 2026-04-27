@@ -29,9 +29,7 @@ if typing.TYPE_CHECKING:
 
 # We need to trick Celery into supporting rediss:// URLs which is how redis-py
 # signals that you should use Redis with TLS.
-celery.app.backends.BACKEND_ALIASES["rediss"] = (
-    "warehouse.tasks:TLSRedisBackend"  # noqa
-)
+celery.app.backends.BACKEND_ALIASES["rediss"] = "warehouse.tasks:TLSRedisBackend"
 
 
 logger = logging.getLogger(__name__)
@@ -262,7 +260,7 @@ def includeme(config: Configurator) -> None:
     # Only redis is supported as a broker
     assert broker_url.startswith("redis")
 
-    parsed_url = urllib.parse.urlparse(  # noqa: WH001, going to urlunparse this
+    parsed_url = urllib.parse.urlparse(  # noqa: TID251, going to urlunparse this
         broker_url
     )
     parsed_query = urllib.parse.parse_qs(parsed_url.query)

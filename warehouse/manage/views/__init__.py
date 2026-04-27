@@ -1601,7 +1601,7 @@ class ManageProjectRelease:
             self.request.session.flash(
                 self.request._(
                     "Could not yank release - "
-                    + f"{version!r} is not the same as {self.release.version!r}"
+                    f"{version!r} is not the same as {self.release.version!r}"
                 ),
                 queue="error",
             )
@@ -1686,7 +1686,7 @@ class ManageProjectRelease:
             self.request.session.flash(
                 self.request._(
                     "Could not un-yank release - "
-                    + f"{version!r} is not the same as {self.release.version!r}"
+                    f"{version!r} is not the same as {self.release.version!r}"
                 ),
                 queue="error",
             )
@@ -1787,7 +1787,7 @@ class ManageProjectRelease:
             self.request.session.flash(
                 self.request._(
                     "Could not delete release - "
-                    + f"{version!r} is not the same as {self.release.version!r}"
+                    f"{version!r} is not the same as {self.release.version!r}"
                 ),
                 queue="error",
             )
@@ -2438,8 +2438,9 @@ def change_project_role(project, request, _form_class=ChangeRoleForm):
                 request.db.add(
                     JournalEntry(
                         name=project.name,
-                        action="change {} {} to {}".format(
-                            role.role_name, role.user.username, form.role_name.data
+                        action=(
+                            f"change {role.role_name} {role.user.username} to "
+                            f"{form.role_name.data}"
                         ),
                         submitted_by=request.user,
                     )
