@@ -54,10 +54,8 @@ def _redact_ip(request, email):
         return user_email.user_id != request._unauthenticated_userid
     if request.user:
         return user_email.user_id != request.user.id
-    if request.remote_addr == "127.0.0.1":
-        # This is the IP used when synthesizing a request in a task
-        return True
-    return False
+
+    return request.remote_addr == "127.0.0.1"
 
 
 @tasks.task(bind=True, ignore_result=True, acks_late=True)
@@ -74,7 +72,7 @@ def send_email(task, request, recipient, msg, success_event):
             user.record_event(**success_event)
     except (BadHeaders, EncodingError, InvalidMessage) as exc:
         raise exc
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001
         # Send any other exception to Sentry, but don't re-raise it
         sentry_sdk.capture_exception(exc)
         task.retry(exc=exc)

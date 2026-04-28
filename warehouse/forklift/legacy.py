@@ -213,14 +213,12 @@ def _valid_platform_tag(platform_tag):
     if m and m.group("arch") in _android_arches:
         return True
     m = _pyemscripten_platform_re.match(platform_tag)
-    if m:
-        return True
-    return False
+    return bool(m)
 
 
 _error_message_order = ["metadata-version", "name", "version"]
 
-_dist_file_re = re.compile(r".+?(?P<extension>\.(tar\.gz|zip|whl))$", re.I)
+_dist_file_re = re.compile(r".+?(?P<extension>\.(tar\.gz|zip|whl))$", re.IGNORECASE)
 
 
 def _construct_dependencies(meta: metadata.Metadata, types):
@@ -951,7 +949,7 @@ def file_upload(request):
                     "provides_extra",
                 }
             },
-            uploader=request.user if request.user else None,
+            uploader=request.user or None,
             uploaded_via=request.user_agent,
         )
         request.db.add(release)
@@ -1056,14 +1054,12 @@ def file_upload(request):
         # because it's better safe than sorry. In the case of multiple digests
         # we expect them all to be given.
         if not all(
-            [
-                hmac.compare_digest(
-                    getattr(form, f"{digest_name}_digest").data.lower(),
-                    digest_value,
-                )
-                for digest_name, digest_value in file_hashes.items()
-                if getattr(form, f"{digest_name}_digest").data
-            ]
+            hmac.compare_digest(
+                getattr(form, f"{digest_name}_digest").data.lower(),
+                digest_value,
+            )
+            for digest_name, digest_value in file_hashes.items()
+            if getattr(form, f"{digest_name}_digest").data
         ):
             request.metrics.increment(
                 "warehouse.upload.failed", tags=["reason:digest-mismatch"]
@@ -1079,7 +1075,7 @@ def file_upload(request):
         if is_duplicate:
             request.tm.doom()
             return HTTPOk()
-        elif is_duplicate is not None:
+        if is_duplicate is not None:
             request.metrics.increment(
                 "warehouse.upload.failed", tags=["reason:duplicate-file"]
             )
@@ -1598,7 +1594,7 @@ def file_upload(request):
                 name=release.project.name,
                 version=release.version,
                 action="new release",
-                submitted_by=request.user if request.user else None,
+                submitted_by=request.user or None,
             )
         )
     request.db.add(
@@ -1606,7 +1602,7 @@ def file_upload(request):
             name=release.project.name,
             version=release.version,
             action=f"add {file_.python_version} file {file_.filename}",
-            submitted_by=request.user if request.user else None,
+            submitted_by=request.user or None,
         )
     )
 
