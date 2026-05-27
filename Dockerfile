@@ -3,7 +3,7 @@ ARG PYTHON_IMAGE_VERSION=3.14.5-slim-trixie
 
 # First things first, we build an image which is where we're going to compile
 # our static assets with. We use this stage in development.
-FROM node:25.8.1-trixie AS static-deps
+FROM node:26.2.0-trixie AS static-deps
 
 WORKDIR /opt/warehouse/src/
 
