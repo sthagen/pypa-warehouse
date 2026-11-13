@@ -14,9 +14,9 @@ alembic-postgresql-enum==1.10.0 \
     --hash=sha256:39297cb5dc0e71a3e08df1feeab9ffcc1b6aac0be02bf578748d74c442cd3fbf \
     --hash=sha256:ea23481de3d6a00d68d369f92a46ff4fa27b2575e39c583145f1e23ea9c7511d
     # via -r requirements/main.in
-amqp==5.3.1 \
-    --hash=sha256:43b3319e1b4e7d1251833a93d672b4af1e40f3d632d479b98661a95f117880a2 \
-    --hash=sha256:cddc00c725449522023bad949f70fff7b48f0b1ade74d170a6f10ab044739432
+amqp==5.4.2 \
+    --hash=sha256:9362660c4a31150cf18e78cae2ce8aa1e929fc6c6739e69f6dd5dbea9c3edc82 \
+    --hash=sha256:e6e756b15c89c86818b48a4947a424706238afbf67d457428d3269bc4590db9e
     # via kombu
 annotated-types==0.7.0 \
     --hash=sha256:1f02e8b43a8fbbc3f3e0d4f0f4bfc8131bcb4eebe8849b8e5c773f3a1c582a53 \
@@ -128,9 +128,9 @@ bcrypt==4.3.0 \
     --hash=sha256:f6746e6fec103fcd509b96bacdfdaa2fbde9a553245dbada284435173a6f1aef \
     --hash=sha256:f81b0ed2639568bf14749112298f9e4e2b28853dab50a8b357e31798686a036d
     # via -r requirements/main.in
-billiard==4.2.4 \
-    --hash=sha256:525b42bdec68d2b983347ac312f892db930858495db601b5836ac24e6477cde5 \
-    --hash=sha256:55f542c371209e03cd5862299b74e52e4fbcba8250ba611ad94276b369b6a85f
+billiard==4.3.2 \
+    --hash=sha256:37735a7b4117aafa73532b3b493db4c02fb85c0e69d5f3447f113fd30ff27872 \
+    --hash=sha256:9eb83c99b1cf7acb1fed86c1dfd477157000a1a2c0108005c1e5837b55d2acba
     # via celery
 boto3==1.43.22 \
     --hash=sha256:0597fb9fe1613e636ac55219a5a54ad0fcb7c15e6be32c799301f7fb53ff04e1 \
@@ -201,9 +201,9 @@ cbor2==6.1.4 \
     --hash=sha256:e8097e8259b78c8feb5dd5b833b23f83ed588e821ef44cf1455082cfc9434440 \
     --hash=sha256:f3fc7d15cba4174373df2496070faa4a927fe3ed772130d281808120aec7b61c
     # via webauthn
-celery[redis]==5.6.3 \
-    --hash=sha256:0808f42f80909c4d5833202360ffafb2a4f83f4d8e23e1285d926610e9a7afa6 \
-    --hash=sha256:177006bd2054b882e9f01be59abd8529e88879ef50d7918a7050c5a9f4e12912
+celery[redis]==5.7.0 \
+    --hash=sha256:18310a9c919f9029e4735367484d93e6a25cdfd30afdc474622cc263d9b35f6e \
+    --hash=sha256:6a5dfcf6662287204f009a02002b9e66c83d4105e47ebabdc7079108772fc6f0
     # via
     #   -r requirements/main.in
     #   celery-redbeat
@@ -494,9 +494,9 @@ click-plugins==1.1.1.2 \
     --hash=sha256:008d65743833ffc1f5417bf0e78e8d2c23aab04d9745ba817bd3e71b0feb6aa6 \
     --hash=sha256:d7af3984a99d243c131aa1a828331e7630f4a88a9741fd05c927b204bcf92261
     # via celery
-click-repl==0.3.0 \
-    --hash=sha256:17849c23dba3d667247dc4defe1757fff98694e90fe37474f3feebb69ced26a9 \
-    --hash=sha256:fb7e06deb8da8de86180a33a9da97ac316751c094c6899382da7feeeeb51b812
+click-repl==0.4.1 \
+    --hash=sha256:5cb10881d4c5ebaa8695eceb69911af3062ee78342812b713564b17aad333eb5 \
+    --hash=sha256:c32a1cf6f95e5bd6e92076f81ce24eafd33f2f0ffb0135887e335b8e446d1c0b
     # via celery
 comrak==0.0.16 \
     --hash=sha256:0142dbc052d15b60d144999c60683e8dae2490f1cdaab5f2f08a59028b550568 \
@@ -1063,9 +1063,9 @@ jsonschema-specifications==2025.9.1 \
     # via
     #   jsonschema
     #   openapi-schema-validator
-kombu[redis]==5.6.2 \
-    --hash=sha256:8060497058066c6f5aed7c26d7cd0d3b574990b09de842a8c5aaed0b92cc5a55 \
-    --hash=sha256:efcfc559da324d41d61ca311b0c64965ea35b4c55cc04ee36e55386145dace93
+kombu[redis]==5.7.0 \
+    --hash=sha256:31e62fdfd2381caa3422f8e02b84a491d9a2180ddda74507b57f4cb1e1c2c2c9 \
+    --hash=sha256:dede73bff4c89175be382c4203d2f167cf7017c384396ec75c36a1b5678f1587
     # via
     #   -r requirements/main.in
     #   celery
@@ -2455,6 +2455,7 @@ typing-extensions==4.15.0 \
     # via
     #   alembic
     #   cattrs
+    #   click-repl
     #   grpcio
     #   limits
     #   openapi-core
@@ -2470,10 +2471,6 @@ typing-inspection==0.4.2 \
     # via
     #   pydantic
     #   pydantic-settings
-tzdata==2026.2 \
-    --hash=sha256:9173fde7d80d9018e02a662e168e5a2d04f87c41ea174b139fbef642eda62d10 \
-    --hash=sha256:bbe9af844f658da81a5f95019480da3a89415801f6cc966806612cc7169bffe7
-    # via kombu
 tzlocal==5.4.3 \
     --hash=sha256:24ce97bb58e2a973f7640ec2553ab4e6f6d5a0d0d1aa9dc43bca21d89e1feb82 \
     --hash=sha256:3a8c9bc18cf47e1dcde252ea0e6a72a6cde320a400b6ac6db1f1f8cccd553c00
